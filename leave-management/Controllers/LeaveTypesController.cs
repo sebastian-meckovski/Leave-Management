@@ -68,6 +68,7 @@ namespace leave_management.Controllers
             }
             catch
             {
+                ModelState.AddModelError("", "Something went wrong");
                 return View();
             }
         }
