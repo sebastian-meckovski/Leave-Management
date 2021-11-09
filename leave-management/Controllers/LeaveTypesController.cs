@@ -26,7 +26,7 @@ namespace leave_management.Controllers
         public ActionResult Index()
         {
             var leavetypes = _repo.FindAll().ToList();  // Instead of ToList at the end we can use ICollection on instead of list
-            var model = _mapper.Map<List<LeaveType>, List<DetailsLeaveTypeVM>>(leavetypes);  // on this line
+            var model = _mapper.Map<List<LeaveType>, List<LeaveTypeVM>>(leavetypes);  // on this line
             return View(model);  // once we creaded and mapped the model our view will have a access to all that data
         }
 
@@ -45,10 +45,25 @@ namespace leave_management.Controllers
         // POST: LeaveTypesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(LeaveType model)
         {
             try
             {
+                if(!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                var leaveType = _mapper.Map<LeaveType>(model);
+                leaveType.DateCreated = DateTime.Now;
+
+                var isSuccess = _repo.Create(leaveType);
+                if (!isSuccess)
+                {
+                    ModelState.AddModelError("", "Something went wrong");
+                    return View(model);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -66,7 +81,7 @@ namespace leave_management.Controllers
         // POST: LeaveTypesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, LeaveType model)
         {
             try
             {
@@ -87,7 +102,7 @@ namespace leave_management.Controllers
         // POST: LeaveTypesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, LeaveType model)
         {
             try
             {
