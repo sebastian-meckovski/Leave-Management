@@ -10,7 +10,9 @@ namespace leave_management.Data
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
+        [MaxLength(255)]
         public string Name { get; set; }
         public DateTime DateCreated { get; set; }
     }

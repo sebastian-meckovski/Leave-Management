@@ -76,6 +76,10 @@ namespace leave_management.Controllers
         // GET: LeaveTypesController/Edit/5
         public ActionResult Edit(int id)
         {
+            if (_repo.isExists(id))
+            {
+
+            }
             return View();
         }
 

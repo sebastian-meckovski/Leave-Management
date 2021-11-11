@@ -36,6 +36,12 @@ namespace leave_management.Repository
             return _db.leaveHistories.Find(id);
         }
 
+        public bool isExists(int id)
+        {
+            bool exisits = _db.leaveHistories.Any(q => q.Id == id); // simply returns true/false whether a recod exsts under that id
+            return exisits;
+        }
+
         public bool Save()
         {
             return _db.SaveChanges() > 0;

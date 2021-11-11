@@ -41,6 +41,12 @@ namespace leave_management.Repository
             throw new NotImplementedException();
         }
 
+        public bool isExists(int id)
+        {
+            bool exisits = _db.LeaveTypes.Any(q => q.Id == id); // simply returns true/false whether a recod exsts under that id
+            return exisits;
+        }
+
         public bool Save()
         {
             return _db.SaveChanges() > 0;

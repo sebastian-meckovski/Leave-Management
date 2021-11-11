@@ -10,8 +10,8 @@ using leave_management.Data;
 namespace leave_management.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211109073104_LeaveTypeVM model adjusted. Max length added")]
-    partial class LeaveTypeVMmodeladjustedMaxlengthadded
+    [Migration("20211109212452_LeaveTypeMaxLengthAdded")]
+    partial class LeaveTypeMaxLengthAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -309,7 +309,8 @@ namespace leave_management.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -328,8 +329,8 @@ namespace leave_management.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
