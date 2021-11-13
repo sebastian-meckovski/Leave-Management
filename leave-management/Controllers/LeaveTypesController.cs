@@ -33,7 +33,14 @@ namespace leave_management.Controllers
         // GET: LeaveTypesController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            if (!_repo.isExists(id))
+            {
+                return NotFound();
+            }
+
+            var leavetype = _repo.FindById(id);
+            var model = _mapper.Map<LeaveTypeVM>(leavetype);
+            return View(model);
         }
 
         // GET: LeaveTypesController/Create
@@ -78,8 +85,7 @@ namespace leave_management.Controllers
             if (!_repo.isExists(id))
             {
                 ModelState.AddModelError("", "Something went wrong");
-
-                //return NotFound();
+                //return NotFound();      //can also use that
             }
             var leavetype = _repo.FindById(id);
             var model = _mapper.Map<LeaveTypeVM>(leavetype);
@@ -115,7 +121,18 @@ namespace leave_management.Controllers
         // GET: LeaveTypesController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var leavetype = _repo.FindById(id);
+            if (leavetype == null)
+            {
+                return NotFound();
+            }
+
+            var isSuccess = _repo.Delete(leavetype);
+            if (!isSuccess)
+            {
+                return BadRequest();
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: LeaveTypesController/Delete/5
@@ -125,11 +142,22 @@ namespace leave_management.Controllers
         {
             try
             {
+                var leavetype = _repo.FindById(id);
+                if(leavetype == null)
+                {
+                    return NotFound();
+                }
+
+                var isSuccess = _repo.Delete(leavetype);
+                if (!isSuccess)
+                {
+                    return View(model);
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
     }
