@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>aspnet-leave_management-D7FE746E-D58E-43F6-8B6C-F4E7B46756BA</UserSecretsId>
     <RootNamespace>leave_management</RootNamespace>
   </PropertyGroup>
@@ -19,6 +19,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="5.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+	<PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="6.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
 </Project>
