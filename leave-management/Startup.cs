@@ -42,8 +42,11 @@ namespace leave_management
 
             services.AddAutoMapper(typeof(Maps));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<IdentityUser>(  options => { options.Password.RequireNonAlphanumeric = false; 
+                                                                     options.Password.RequireUppercase = false;
+                                                                     options.Password.RequireDigit = false;
+                                                                        } )
+                    .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
