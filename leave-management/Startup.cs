@@ -42,7 +42,7 @@ namespace leave_management
 
             services.AddAutoMapper(typeof(Maps));
 
-            services.AddDefaultIdentity<IdentityUser>(  options => { options.Password.RequireNonAlphanumeric = false;  //the updated course now uses <Employee>
+            services.AddDefaultIdentity<Employee>(  options => { options.Password.RequireNonAlphanumeric = false;  //the updated course now uses <Employee>
                                                                      options.Password.RequireUppercase = false;        //Need to investigate why
                                                                      options.Password.RequireDigit = false;
                                                                    })
