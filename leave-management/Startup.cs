@@ -45,7 +45,7 @@ namespace leave_management
             services.AddDefaultIdentity<IdentityUser>(  options => { options.Password.RequireNonAlphanumeric = false; 
                                                                      options.Password.RequireUppercase = false;
                                                                      options.Password.RequireDigit = false;
-                                                                        } )
+                                                                   })
                     .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();

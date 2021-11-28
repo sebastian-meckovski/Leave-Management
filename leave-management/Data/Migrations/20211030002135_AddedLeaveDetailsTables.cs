@@ -46,8 +46,8 @@ namespace leave_management.Data.Migrations
                         column: x => x.LeaveTypeId,
                         principalTable: "LeaveTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade); // the updated course reccomends switching this to Restrict. 
+                });                                           // will need to look into how amend past migrations or if possible at all
 
             migrationBuilder.CreateTable(
                 name: "leaveHistories",

@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace leave_management.Data
 {
-    public class LeaveType
+    public class LeaveType : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(255)]
         public string Name { get; set; }
-        public DateTime DateCreated { get; set; }
+
+        public string DefaultDays { get; set; }
+
     }
 }
 

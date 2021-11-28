@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using leave_management.Data;
 
@@ -11,9 +12,10 @@ using leave_management.Data;
 namespace leave_management.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211128145436_DateModifiedColumnAddedToLeaveAllocation")]
+    partial class DateModifiedColumnAddedToLeaveAllocation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +53,7 @@ namespace leave_management.Data.Migrations
 
                     b.HasIndex("LeaveTypeId");
 
-                    b.ToTable("LeaveAllocations", (string)null);
+                    b.ToTable("LeaveAllocations");
                 });
 
             modelBuilder.Entity("leave_management.Data.LeaveHistory", b =>
@@ -94,7 +96,7 @@ namespace leave_management.Data.Migrations
 
                     b.HasIndex("RequestingEmployeeId");
 
-                    b.ToTable("leaveHistories", (string)null);
+                    b.ToTable("leaveHistories");
                 });
 
             modelBuilder.Entity("leave_management.Data.LeaveType", b =>
@@ -121,7 +123,7 @@ namespace leave_management.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LeaveTypes", (string)null);
+                    b.ToTable("LeaveTypes");
                 });
 
             modelBuilder.Entity("leave_management.Models.LeaveTypeVM", b =>
@@ -142,7 +144,7 @@ namespace leave_management.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DetailsLeaveTypeVM", (string)null);
+                    b.ToTable("DetailsLeaveTypeVM");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
