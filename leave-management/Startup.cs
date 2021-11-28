@@ -43,9 +43,9 @@ namespace leave_management
             services.AddAutoMapper(typeof(Maps));
 
             services.AddDefaultIdentity<Employee>(  options => { options.Password.RequireNonAlphanumeric = false;  //the updated course now uses <Employee>
-                                                                     options.Password.RequireUppercase = false;        //Need to investigate why
-                                                                     options.Password.RequireDigit = false;
-                                                                   })
+                                                                 options.Password.RequireUppercase = false;        //Need to investigate why. Resolved
+                                                                 options.Password.RequireDigit = false;
+                                                                })
                     .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
