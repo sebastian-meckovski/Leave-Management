@@ -1,164 +1,152 @@
-﻿using AutoMapper;
-using leave_management.Contracts;
-using leave_management.Data;
-using leave_management.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using leave_management.Data;
 
 namespace leave_management.Controllers
 {
     public class LeaveTypesController : Controller
     {
-        private readonly ILeaveTypeRepository _repo;
-        private readonly IMapper _mapper;
+        private readonly ApplicationDbContext _context;
 
-        public LeaveTypesController(ILeaveTypeRepository repo, IMapper mapper)
+        public LeaveTypesController(ApplicationDbContext context)
         {
-            _repo = repo;
-            _mapper = mapper;
+            _context = context;
         }
 
-        // GET: LeaveTypesController
-        public ActionResult Index()
+        // GET: LeaveTypes
+        public async Task<IActionResult> Index()
         {
-            var leavetypes = _repo.FindAll().ToList();  // Instead of ToList at the end we can use ICollection on instead of list
-            var model = _mapper.Map<List<LeaveType>, List<LeaveTypeVM>>(leavetypes);  // on this line
-            return View(model);  // once we creaded and mapped the model our view will have a access to all that data
+            return View(await _context.LeaveTypes.ToListAsync());
         }
 
-        // GET: LeaveTypesController/Details/5
-        public ActionResult Details(int id)
+        // GET: LeaveTypes/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
-            if (!_repo.isExists(id))
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var leavetype = _repo.FindById(id);
-            var model = _mapper.Map<LeaveTypeVM>(leavetype);
-            return View(model);
+            var leaveType = await _context.LeaveTypes
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (leaveType == null)
+            {
+                return NotFound();
+            }
+
+            return View(leaveType);
         }
 
-        // GET: LeaveTypesController/Create
-        public ActionResult Create()
+        // GET: LeaveTypes/Create
+        public IActionResult Create()
         {
             return View();
         }
 
-        // POST: LeaveTypesController/Create
+        // POST: LeaveTypes/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(LeaveType model)
+        public async Task<IActionResult> Create([Bind("Name,DefaultDays,Id,DateCreated,DateModified")] LeaveType leaveType)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if(!ModelState.IsValid)
-                {
-                    return View(model);
-                }
-                var leaveType = _mapper.Map<LeaveType>(model);
-                leaveType.DateCreated = DateTime.Now;
-
-                var isSuccess = _repo.Create(leaveType);
-                if (!isSuccess)
-                {
-                    ModelState.AddModelError("", "Something went wrong");
-                    return View(model);
-                }
-
+                _context.Add(leaveType);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                ModelState.AddModelError("", "Something went wrong");
-                return View();
-            }
+            return View(leaveType);
         }
 
-        // GET: LeaveTypesController/Edit/5
-        public ActionResult Edit(int id)
+        // GET: LeaveTypes/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
-            if (!_repo.isExists(id))
-            {
-                ModelState.AddModelError("", "Something went wrong");
-                //return NotFound();      //can also use that
-            }
-            var leavetype = _repo.FindById(id);
-            var model = _mapper.Map<LeaveTypeVM>(leavetype);
-            return View(model);
-        }
-
-        // POST: LeaveTypesController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(LeaveTypeVM model)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return View(model);
-                }
-                var leaveType = _mapper.Map<LeaveType>(model);
-                var isSuccess = _repo.Update(leaveType);
-                if (!isSuccess)
-                {
-                    return View(model);
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                ModelState.AddModelError("", "Something went wrong");
-                return View();
-            }
-        }
-
-        // GET: LeaveTypesController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            var leavetype = _repo.FindById(id);
-            if (leavetype == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var isSuccess = _repo.Delete(leavetype);
-            if (!isSuccess)
+            var leaveType = await _context.LeaveTypes.FindAsync(id);
+            if (leaveType == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-            return RedirectToAction(nameof(Index));
+            return View(leaveType);
         }
 
-        // POST: LeaveTypesController/Delete/5
+        // POST: LeaveTypes/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, LeaveType model)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,DefaultDays,Id,DateCreated,DateModified")] LeaveType leaveType)
         {
-            try
+            if (id != leaveType.Id)
             {
-                var leavetype = _repo.FindById(id);
-                if(leavetype == null)
-                {
-                    return NotFound();
-                }
+                return NotFound();
+            }
 
-                var isSuccess = _repo.Delete(leavetype);
-                if (!isSuccess)
+            if (ModelState.IsValid)
+            {
+                try
                 {
-                    return View(model);
+                    _context.Update(leaveType);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!LeaveTypeExists(leaveType.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            return View(leaveType);
+        }
+
+        // GET: LeaveTypes/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
             {
-                return View(model);
+                return NotFound();
             }
+
+            var leaveType = await _context.LeaveTypes
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (leaveType == null)
+            {
+                return NotFound();
+            }
+
+            return View(leaveType);
+        }
+
+        // POST: LeaveTypes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var leaveType = await _context.LeaveTypes.FindAsync(id);
+            _context.LeaveTypes.Remove(leaveType);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool LeaveTypeExists(int id)
+        {
+            return _context.LeaveTypes.Any(e => e.Id == id);
         }
     }
 }
