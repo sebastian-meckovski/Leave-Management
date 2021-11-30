@@ -14,7 +14,9 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="DateCreated" />  @* This is kind of like tracking a field of an object. if it exists the value gets saved when editng *@
+            @*<input type="hidden" asp-for="DateCreated" />  @* This is kind of like tracking a field of an object. if it exists the value gets saved when editng 
+                This was old project. In the new one, we don't Display Date created'
+            *@
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />

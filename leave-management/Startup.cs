@@ -1,7 +1,7 @@
 using AutoMapper;
+using leave_management.Configurations;
 using leave_management.Contracts;
 using leave_management.Data;
-using leave_management.Mappings;
 using leave_management.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,7 +40,8 @@ namespace leave_management
             services.AddScoped<ILeaveHistoryRepository, LeaveHistoryRepository>();
             services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
 
-            services.AddAutoMapper(typeof(Maps));
+            //services.AddAutoMapper(typeof(Maps)); // this is an old one which we no longer use
+            services.AddAutoMapper(typeof(MapperConfig));
 
             services.AddDefaultIdentity<Employee>(  options => { options.Password.RequireNonAlphanumeric = false;  //the updated course now uses <Employee>
                                                                  options.Password.RequireUppercase = false;        //Need to investigate why. Resolved
