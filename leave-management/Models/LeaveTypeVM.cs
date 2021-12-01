@@ -11,9 +11,11 @@ namespace leave_management.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Leave Type Name")]
         [MaxLength(20, ErrorMessage = "Invalid name")]
         public string Name { get; set; }
 
+        [Required]
         [Display(Name= "Default Number Of Days")]
         public int DefaultDays { get; set; }
     }
