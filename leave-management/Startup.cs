@@ -1,4 +1,4 @@
-using AutoMapper;
+ using AutoMapper;
 using leave_management.Configurations;
 using leave_management.Contracts;
 using leave_management.Data;
@@ -36,7 +36,11 @@ namespace leave_management
                     Configuration.GetConnectionString("DefaultConnection")));
             //Adding references for Repos and Contracts to Startup file.
             //We need to add it here manually after creating these classes and Interfaces
+
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositorty<>));
             services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();     
+
             services.AddScoped<ILeaveHistoryRepository, LeaveHistoryRepository>();
             services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
 

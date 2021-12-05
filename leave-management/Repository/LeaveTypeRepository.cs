@@ -7,55 +7,11 @@ using System.Threading.Tasks;
 
 namespace leave_management.Repository
 {
-    public class LeaveTypeRepository : ILeaveTypeRepository
+    public class LeaveTypeRepository : GenericRepositorty<LeaveType>, ILeaveTypeRepository
     {
-        private readonly ApplicationDbContext _db;
-        public LeaveTypeRepository(ApplicationDbContext db)
+        public LeaveTypeRepository(ApplicationDbContext context) : base(context)
         {
-            _db = db;
-        }
-        public bool Create(LeaveType entity)
-        {
-            _db.LeaveTypes.Add(entity);
-            return Save();
-        }
 
-        public bool Delete(LeaveType entity)
-        {
-            _db.LeaveTypes.Remove(entity);
-            return Save();
-        }
-
-        public ICollection<LeaveType> FindAll()
-        {
-            return _db.LeaveTypes.ToList();  // In this case It's ok to return a list as the function return type is ICollection
-        }
-
-        public LeaveType FindById(int id)
-        {
-            return _db.LeaveTypes.Find(id);
-        }
-
-        public ICollection<LeaveType> GetEmployeesByLeaveType(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool isExists(int id)
-        {
-            bool exisits = _db.LeaveTypes.Any(q => q.Id == id); // simply returns true/false whether a recod exsts under that id
-            return exisits;
-        }
-
-        public bool Save()
-        {
-            return _db.SaveChanges() > 0;
-        }
-
-        public bool Update(LeaveType entity)
-        {
-            _db.LeaveTypes.Update(entity);
-            return Save();
         }
     }
 }
