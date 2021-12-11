@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using leave_management.Models;
+using leave_management.Configurations.Entities;
 
 namespace leave_management.Data
 {
@@ -12,6 +13,14 @@ namespace leave_management.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new RoleSeedConfiguration());
+            builder.ApplyConfiguration(new UserSeedConfiguration());
+            builder.ApplyConfiguration(new UserRoleConfiguration());
         }
 
         public DbSet<Employee> Employees { get; set; }
