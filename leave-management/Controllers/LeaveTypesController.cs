@@ -10,10 +10,11 @@ using AutoMapper;
 using leave_management.Models;
 using leave_management.Contracts;
 using Microsoft.AspNetCore.Authorization;
+using leave_management.Constants;
 
 namespace leave_management.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = Roles.Administrator)]
     public class LeaveTypesController : Controller
     {
         private readonly ILeaveTypeRepository leaveTypeRepository;
