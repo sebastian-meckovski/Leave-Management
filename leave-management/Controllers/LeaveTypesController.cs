@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace leave_management.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     public class LeaveTypesController : Controller
     {
         private readonly ILeaveTypeRepository leaveTypeRepository;
