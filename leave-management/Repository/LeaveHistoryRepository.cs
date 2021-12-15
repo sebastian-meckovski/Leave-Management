@@ -9,48 +9,34 @@ namespace leave_management.Repository
 {
     public class LeaveHistoryRepository : ILeaveHistoryRepository
     {
-        private readonly ApplicationDbContext _db;
-        public LeaveHistoryRepository(ApplicationDbContext db)
+        public Task<LeaveHistory> AddSync(LeaveHistory entity)
         {
-            _db = db;
-        }
-        public bool Create(LeaveHistory entity)
-        {
-            _db.leaveHistories.Add(entity);
-            return Save();
+            throw new NotImplementedException();
         }
 
-        public bool Delete(LeaveHistory entity)
+        public Task DeleteAsync(int id)
         {
-            _db.leaveHistories.Add(entity);
-            return Save();
+            throw new NotImplementedException();
         }
 
-        public ICollection<LeaveHistory> FindAll()
+        public Task<bool> Exists(int id)
         {
-            return _db.leaveHistories.ToList();
+            throw new NotImplementedException();
         }
 
-        public LeaveHistory FindById(int id)
+        public Task<List<LeaveHistory>> GetAllSync()
         {
-            return _db.leaveHistories.Find(id);
+            throw new NotImplementedException();
         }
 
-        public bool isExists(int id)
+        public Task<LeaveHistory> GetAsync(int? id)
         {
-            bool exisits = _db.leaveHistories.Any(q => q.Id == id); // simply returns true/false whether a recod exsts under that id
-            return exisits;
+            throw new NotImplementedException();
         }
 
-        public bool Save()
+        public Task UpdateAsync(LeaveHistory entity)
         {
-            return _db.SaveChanges() > 0;
-        }
-
-        public bool Update(LeaveHistory entity)
-        {
-            _db.leaveHistories.Update(entity);
-            return Save();
+            throw new NotImplementedException();
         }
     }
 }

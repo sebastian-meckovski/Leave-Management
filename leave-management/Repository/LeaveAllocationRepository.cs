@@ -7,50 +7,51 @@ using System.Threading.Tasks;
 
 namespace leave_management.Repository
 {
-    public class LeaveAllocationRepository : ILeaveAllocationRepository
+    public class LeaveAllocationRepository : GenericRepositorty<LeaveAllocation>, ILeaveAllocationRepository
     {
-        private readonly ApplicationDbContext _db;
-        public LeaveAllocationRepository(ApplicationDbContext db)
+        public LeaveAllocationRepository(ApplicationDbContext context) : base(context)
         {
-            _db = db;
+
         }
+
         public bool Create(LeaveAllocation entity)
         {
-            _db.LeaveAllocations.Add(entity);
-            return Save();
+            throw new NotImplementedException();
         }
 
         public bool Delete(LeaveAllocation entity)
         {
-            _db.LeaveAllocations.Remove(entity);
-            return Save();
+            throw new NotImplementedException();
         }
 
         public ICollection<LeaveAllocation> FindAll()
         {
-            return _db.LeaveAllocations.ToList();
+            throw new NotImplementedException();
         }
 
         public LeaveAllocation FindById(int id)
         {
-            return _db.LeaveAllocations.Find(id);
+            throw new NotImplementedException();
         }
 
         public bool isExists(int id)
         {
-            bool exisits = _db.LeaveAllocations.Any(q => q.Id == id); // simply returns true/false whether a recod exsts under that id
-            return exisits;
+            throw new NotImplementedException();
+        }
+
+        public Task LeaveAllocation(int leaveTypeId)
+        {
+            throw new NotImplementedException();
         }
 
         public bool Save()
         {
-            return _db.SaveChanges() > 0;
+            throw new NotImplementedException();
         }
 
         public bool Update(LeaveAllocation entity)
         {
-            _db.LeaveAllocations.Update(entity);
-            return Save();
+            throw new NotImplementedException();
         }
     }
 }
