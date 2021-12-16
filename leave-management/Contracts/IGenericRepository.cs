@@ -15,4 +15,4 @@ namespace leave_management.Contracts
 }
 
 
-//not 100% sure what these do
+//is <T> a collection?

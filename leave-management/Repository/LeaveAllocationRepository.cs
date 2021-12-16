@@ -1,5 +1,7 @@
-﻿using leave_management.Contracts;
+﻿using leave_management.Constants;
+using leave_management.Contracts;
 using leave_management.Data;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,48 +11,22 @@ namespace leave_management.Repository
 {
     public class LeaveAllocationRepository : GenericRepositorty<LeaveAllocation>, ILeaveAllocationRepository
     {
-        public LeaveAllocationRepository(ApplicationDbContext context) : base(context)
+        private readonly UserManager<Employee> userManager;
+        public LeaveAllocationRepository(ApplicationDbContext context, UserManager<Employee> userManager) : base(context)
         {
-
+            this.userManager = userManager;
         }
 
-        public bool Create(LeaveAllocation entity)
+        public async Task LeaveAllocation(int leaveTypeId)
         {
-            throw new NotImplementedException();
-        }
+            var employees =  await userManager.GetUsersInRoleAsync(Roles.User);
+            var period = DateTime.Now.Year;
 
-        public bool Delete(LeaveAllocation entity)
-        {
-            throw new NotImplementedException();
-        }
+            foreach (var employee in employees)
+            {
+                var allocation = employee.Id;
+            }
 
-        public ICollection<LeaveAllocation> FindAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public LeaveAllocation FindById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool isExists(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task LeaveAllocation(int leaveTypeId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Save()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Update(LeaveAllocation entity)
-        {
             throw new NotImplementedException();
         }
     }
