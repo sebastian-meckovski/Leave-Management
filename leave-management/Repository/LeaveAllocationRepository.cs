@@ -12,9 +12,13 @@ namespace leave_management.Repository
     public class LeaveAllocationRepository : GenericRepositorty<LeaveAllocation>, ILeaveAllocationRepository
     {
         private readonly UserManager<Employee> userManager;
-        public LeaveAllocationRepository(ApplicationDbContext context, UserManager<Employee> userManager) : base(context)
+        private readonly IleaveTypeRepository leaveTypeRepository;
+        public LeaveAllocationRepository(ApplicationDbContext context, 
+                                         UserManager<Employee> userManager,
+                                         IleaveTypeRepository leaveTypeRepository) : base(context)
         {
             this.userManager = userManager;
+            this.leaveTypeRepository = leaveTypeRepository;
         }
 
         public async Task LeaveAllocation(int leaveTypeId)
@@ -24,7 +28,12 @@ namespace leave_management.Repository
 
             foreach (var employee in employees)
             {
-                var allocation = employee.Id;
+                var allocation = new LeaveAllocation
+                {
+                    EmployeeId = employee.Id,
+                    LeaveTypeId = leaveTypeId,
+                    Period = period,
+                };
             }
 
             throw new NotImplementedException();
